@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onBeforeMount, onMounted, ref } from "vue";
+import { /* computed, */ onBeforeMount, onMounted, ref } from "vue";
 import callAPI from "../fetching";
 import { toast } from "vue3-toastify";
 import DropZone from "../components/DropZone.vue";
@@ -105,11 +105,11 @@ const lastResult = ref<any | null>(null);
 
 
 //mods
-const mods = ref<string[]>([]); //terminar isso
-const modItems = computed(() =>
+//const mods = ref<string[]>([]); //terminar isso
+/* const modItems = computed(() =>
   mods.value.map((name) => ({ name }))
 );
-const loadingMods = ref(false)
+const loadingMods = ref(false) */
 
 const dialog = ref(false)
 
@@ -246,7 +246,7 @@ async function stopServer() {
 
 //mods
 
-async function loadMods() { //implementar tabela de mods
+/* async function loadMods() { //implementar tabela de mods
   try {
     loadingMods.value = true;
     const res: {mods: string[]} = await API.listMods();
@@ -254,7 +254,7 @@ async function loadMods() { //implementar tabela de mods
   } finally {
     loadingMods.value = false;
   }
-}
+} */
 
 onBeforeMount(async () => {
  isVmUp.value = await checkVMState();
