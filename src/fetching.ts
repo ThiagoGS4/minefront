@@ -1,4 +1,7 @@
-const API = import.meta.env.VITE_API_URL ||"http://localhost:3000";
+const API = import.meta.env.VITE_API_URL ||
+  (window.location.hostname.endsWith('.azurestaticapps.net')
+    ? 'https://garcia-mine-server.azurewebsites.net'
+    : 'http://localhost:3000');
 
 export default class callAPI {
     /* chamadas da VM */
