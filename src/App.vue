@@ -8,7 +8,7 @@
     <v-app-bar-nav-icon></v-app-bar-nav-icon>
   </template> adicionar nav icon??-->
 
-  <v-app-bar-title>Adicionar card??</v-app-bar-title>
+  <v-app-bar-title>Garcia's server Hub</v-app-bar-title>
 </v-app-bar>
 
     <v-main>
