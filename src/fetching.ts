@@ -4,13 +4,13 @@ const API = import.meta.env.VITE_API_URL ||
     : 'http://localhost:3000');
 
 export default class callAPI {
-    /* chamadas da VM */
+  /* chamadas da VM */
   async checkStateVM() {
     const resp = await fetch(`${API}/status`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        'x-api-key': import.meta.env.VITE_API_KEY,
+        "x-api-key": import.meta.env.VITE_API_KEY,
         //Authorization: `Bearer ${token}`,
       },
       //body: JSON.stringify(user),
@@ -22,8 +22,8 @@ export default class callAPI {
     const resp = await fetch(`${API}/start`, {
       method: "POST",
       headers: {
-        'x-api-key': import.meta.env.VITE_API_KEY,
-      }
+        "x-api-key": import.meta.env.VITE_API_KEY,
+      },
       /* headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -37,8 +37,8 @@ export default class callAPI {
     const resp = await fetch(`${API}/stop`, {
       method: "POST",
       headers: {
-        'x-api-key': import.meta.env.VITE_API_KEY,
-      }
+        "x-api-key": import.meta.env.VITE_API_KEY,
+      },
     });
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     return await resp.json();
@@ -46,17 +46,17 @@ export default class callAPI {
 
   /* chamadas do server de mine */
 
- async checkServerStatus() {
+  async checkServerStatus() {
     const data = await fetch(`${API}/mc/status`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        'x-api-key': import.meta.env.VITE_API_KEY,
+        "x-api-key": import.meta.env.VITE_API_KEY,
         //Authorization: `Bearer ${token}`,
       },
     });
     if (data.ok) {
-      return await data.json()
+      return await data.json();
     } else {
       throw new Error(data.toString());
     }
@@ -64,11 +64,11 @@ export default class callAPI {
 
   async startServer() {
     const data = await fetch(`${API}/startServer`, {
-      method: 'POST',
-      headers: {'x-api-key': import.meta.env.VITE_API_KEY,}
+      method: "POST",
+      headers: { "x-api-key": import.meta.env.VITE_API_KEY },
     });
     if (data.ok) {
-      return await data.json()
+      return await data.json();
     } else {
       throw new Error(data.toString());
     }
@@ -76,11 +76,11 @@ export default class callAPI {
 
   async stopServer() {
     const data = await fetch(`${API}/stopServer`, {
-      method: 'POST',
-      headers: {'x-api-key': import.meta.env.VITE_API_KEY,}
+      method: "POST",
+      headers: { "x-api-key": import.meta.env.VITE_API_KEY },
     });
-   if (data.ok) {
-      return await data.json()
+    if (data.ok) {
+      return await data.json();
     } else {
       throw new Error(data.toString());
     }
@@ -90,48 +90,98 @@ export default class callAPI {
   async listMods() {
     const data = await fetch(`${API}/mods`, {
       method: "GET",
+      headers: { "x-api-key": import.meta.env.VITE_API_KEY },
     });
     if (data.ok) {
-      return data.json()
+      return data.json();
     } else {
       throw new Error(data.toString());
     }
   }
 
   async addMods(files: File[]) {
-  const formData = new FormData();
-  for (const file of files) {
-    formData.append('mods', file);
+    const formData = new FormData();
+    for (const file of files) {
+      formData.append("mods", file);
+    }
+
+    const resp = await fetch(`${API}/mods`, {
+      method: "POST",
+      headers: {
+        "x-api-key": import.meta.env.VITE_API_KEY,
+      },
+      body: formData,
+    });
+
+    if (!resp.ok) {
+      throw new Error(`HTTP ${resp.status}`);
+    }
+    return await resp.json();
   }
 
-  const resp = await fetch(`${API}/mods`, {
-    method: 'POST',
-    headers: {
-      'x-api-key': import.meta.env.VITE_API_KEY,
-    },
-    body: formData,
-  });
+  async removeMods(names: string[]) {
+    console.log("names: -->", names);
 
-  if (!resp.ok) {
-    throw new Error(`HTTP ${resp.status}`);
+    const resp = await fetch(`${API}/mods`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": import.meta.env.VITE_API_KEY,
+      },
+      body: JSON.stringify({ names }),
+    });
+
+    if (!resp.ok) {
+      throw new Error(`HTTP ${resp.status}`);
+    }
+    return await resp.json();
   }
-  return await resp.json();
-}
 
-async removeMods(names: string[]) {
-  const resp = await fetch(`${API}/mods`, {
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': import.meta.env.VITE_API_KEY,
-    },
-    body: JSON.stringify({ names }),
-  });
+  async getWorldsList() {
+    const data = await fetch(`${API}/worlds`, {
+      method: "GET",
+      headers: {
+        "x-api-key": import.meta.env.VITE_API_KEY,
+      },
+    });
 
-  if (!resp.ok) {
-    throw new Error(`HTTP ${resp.status}`);
+    if (data.ok) {
+      return data.json();
+    } else {
+      throw new Error(data.toString());
+    }
   }
-  return await resp.json();
-}
 
+  async moveWorld() {
+    const resp = await fetch(`${API}/moveWorld`, {
+      method: "POST",
+      headers: {
+        "x-api-key": import.meta.env.VITE_API_KEY,
+      },
+    });
+
+    if (!resp.ok) {
+      throw new Error(`HTTP ${resp.status}`);
+    }
+    return await resp.json();
+  }
+
+  async restoreWorld(world: string) {
+    const resp = await fetch(`${API}/restoreWorld`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": import.meta.env.VITE_API_KEY,
+      },
+      body: JSON.stringify({ world }),
+    });
+
+    const payload = await resp.json();
+
+    if (!resp.ok) {
+      throw new Error(payload?.error ?? `HTTP ${resp.status}`);
+    }
+
+    return payload;
+  }
 }
