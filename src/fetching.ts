@@ -1,4 +1,9 @@
-const API = "http://localhost:3000";
+const API = import.meta.env.VITE_API_URL ||
+  (window.location.hostname.endsWith('.azurestaticapps.net')
+    ? 'https://garcia-mine-server.azurewebsites.net'
+    : 'http://localhost:3000');
+
+  const API_KEY = 'V50dmb1AAwq1FHE2sjhT90a8LzIXyUtFEifQAwBGVBCZYWjnjVuRK2cJA0kRQ8FK'
 
 export default class callAPI {
   /* chamadas da VM */
@@ -7,7 +12,7 @@ export default class callAPI {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
         //Authorization: `Bearer ${token}`,
       },
       //body: JSON.stringify(user),
@@ -19,7 +24,7 @@ export default class callAPI {
     const resp = await fetch(`${API}/start`, {
       method: "POST",
       headers: {
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
       },
       /* headers: {
         "Content-Type": "application/json",
@@ -34,7 +39,7 @@ export default class callAPI {
     const resp = await fetch(`${API}/stop`, {
       method: "POST",
       headers: {
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
       },
     });
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
@@ -48,7 +53,7 @@ export default class callAPI {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
         //Authorization: `Bearer ${token}`,
       },
     });
@@ -62,7 +67,7 @@ export default class callAPI {
   async startServer() {
     const data = await fetch(`${API}/startServer`, {
       method: "POST",
-      headers: { "x-api-key": import.meta.env.VITE_API_KEY },
+      headers: { "x-api-key": API_KEY },
     });
     if (data.ok) {
       return await data.json();
@@ -74,7 +79,7 @@ export default class callAPI {
   async stopServer() {
     const data = await fetch(`${API}/stopServer`, {
       method: "POST",
-      headers: { "x-api-key": import.meta.env.VITE_API_KEY },
+      headers: { "x-api-key": API_KEY },
     });
     if (data.ok) {
       return await data.json();
@@ -87,7 +92,7 @@ export default class callAPI {
   async listMods() {
     const data = await fetch(`${API}/mods`, {
       method: "GET",
-      headers: { "x-api-key": import.meta.env.VITE_API_KEY },
+      headers: { "x-api-key": API_KEY },
     });
     if (data.ok) {
       return data.json();
@@ -105,7 +110,7 @@ export default class callAPI {
     const resp = await fetch(`${API}/mods`, {
       method: "POST",
       headers: {
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
       },
       body: formData,
     });
@@ -123,7 +128,7 @@ export default class callAPI {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
       },
       body: JSON.stringify({ names }),
     });
@@ -138,7 +143,7 @@ export default class callAPI {
     const data = await fetch(`${API}/worlds`, {
       method: "GET",
       headers: {
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
       },
     });
 
@@ -153,7 +158,7 @@ export default class callAPI {
     const resp = await fetch(`${API}/moveWorld`, {
       method: "POST",
       headers: {
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
       },
     });
 
@@ -168,7 +173,7 @@ export default class callAPI {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-api-key": import.meta.env.VITE_API_KEY,
+        "x-api-key": API_KEY,
       },
       body: JSON.stringify({ world }),
     });
